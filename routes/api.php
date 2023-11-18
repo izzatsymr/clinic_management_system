@@ -5,16 +5,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RoleController;
-use App\Http\Controllers\Api\AnswerController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\AssessmentController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\AppointmentController;
-use App\Http\Controllers\Api\QuestionAnswersController;
 use App\Http\Controllers\Api\UserAppointmentsController;
 use App\Http\Controllers\Api\AssessmentQuestionsController;
 use App\Http\Controllers\Api\PatientAppointmentsController;
+use App\Http\Controllers\Api\QuestionAssessmentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +40,6 @@ Route::name('api.')
         Route::apiResource('roles', RoleController::class);
         Route::apiResource('permissions', PermissionController::class);
 
-        Route::apiResource('answers', AnswerController::class);
-
         Route::apiResource('appointments', AppointmentController::class);
 
         Route::apiResource('assessments', AssessmentController::class);
@@ -52,10 +49,14 @@ Route::name('api.')
             AssessmentQuestionsController::class,
             'index',
         ])->name('assessments.questions.index');
-        Route::post('/assessments/{assessment}/questions', [
+        Route::post('/assessments/{assessment}/questions/{question}', [
             AssessmentQuestionsController::class,
             'store',
         ])->name('assessments.questions.store');
+        Route::delete('/assessments/{assessment}/questions/{question}', [
+            AssessmentQuestionsController::class,
+            'destroy',
+        ])->name('assessments.questions.destroy');
 
         Route::apiResource('patients', PatientController::class);
 
@@ -71,15 +72,19 @@ Route::name('api.')
 
         Route::apiResource('questions', QuestionController::class);
 
-        // Question Answers
-        Route::get('/questions/{question}/answers', [
-            QuestionAnswersController::class,
+        // Question Assessments
+        Route::get('/questions/{question}/assessments', [
+            QuestionAssessmentsController::class,
             'index',
-        ])->name('questions.answers.index');
-        Route::post('/questions/{question}/answers', [
-            QuestionAnswersController::class,
+        ])->name('questions.assessments.index');
+        Route::post('/questions/{question}/assessments/{assessment}', [
+            QuestionAssessmentsController::class,
             'store',
-        ])->name('questions.answers.store');
+        ])->name('questions.assessments.store');
+        Route::delete('/questions/{question}/assessments/{assessment}', [
+            QuestionAssessmentsController::class,
+            'destroy',
+        ])->name('questions.assessments.destroy');
 
         Route::apiResource('users', UserController::class);
 

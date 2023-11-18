@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use App\Models\Assessment;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssessmentStoreRequest;
 use App\Http\Requests\AssessmentUpdateRequest;
-
-use App\Models\Question;
-use App\Models\Answer;
 
 class AssessmentController extends Controller
 {
@@ -40,8 +38,9 @@ class AssessmentController extends Controller
         $this->authorize('create', Assessment::class);
 
         $patients = Patient::pluck('name', 'id');
+        $questions = Question::pluck('question_text', 'id');
 
-        return view('app.assessments.create', compact('patients'));
+        return view('app.assessments.create', compact('patients', 'questions'));
     }
 
     /**
@@ -57,17 +56,21 @@ class AssessmentController extends Controller
         // Create the assessment
         $assessment = Assessment::create($validated);
 
-        // Create a question associated with the assessment
-        $question = Question::create([
-            'question_text' => $request->input('question_text'), // Assuming you have a question_text input in your form
-            'assessment_id' => $assessment->id,
-        ]);
+        // Loop through the submitted questions and answers
+        foreach ($request->input('questions', []) as $key => $question) {
+            // Ensure 'question_id' is set in each $question element
+            $questionId = isset($question['question_id']) && is_numeric($question['question_id'])
+                ? $question['question_id']
+                : null;
 
-        // Create an answer associated with the question
-        $answer = Answer::create([
-            'answer_text' => $request->input('answer_text'), // Assuming you have an answer_text input in your form
-            'question_id' => $question->id,
-        ]);
+            if (!is_null($questionId) && isset($question['answer_text'])) {
+                // Create a new pivot record for each question and answer
+                $assessment->questions()->attach($questionId, [
+                    'answer_text' => $question['answer_text']
+                ]);
+            }
+        }
+
 
         return redirect()
             ->route('assessments.edit', $assessment)
@@ -96,8 +99,9 @@ class AssessmentController extends Controller
         $this->authorize('update', $assessment);
 
         $patients = Patient::pluck('name', 'id');
+        $questions = Question::pluck('question_text', 'id');
 
-        return view('app.assessments.edit', compact('assessment', 'patients'));
+        return view('app.assessments.edit', compact('assessment', 'patients', 'questions'));
     }
 
     /**
@@ -105,24 +109,15 @@ class AssessmentController extends Controller
      * @param \App\Models\Assessment $assessment
      * @return \Illuminate\Http\Response
      */
-    public function update(AssessmentUpdateRequest $request, Assessment $assessment)
-    {
+    public function update(
+        AssessmentUpdateRequest $request,
+        Assessment $assessment
+    ) {
         $this->authorize('update', $assessment);
 
         $validated = $request->validated();
 
-        // Update the assessment
         $assessment->update($validated);
-
-        // Update the associated question
-        $assessment->questions->first()->update([
-            'question_text' => $request->input('question_text'), // Assuming you have a question_text input in your form
-        ]);
-
-        // Update the associated answer
-        $assessment->questions->first()->answers->first()->update([
-            'answer_text' => $request->input('answer_text'), // Assuming you have an answer_text input in your form
-        ]);
 
         return redirect()
             ->route('assessments.edit', $assessment)

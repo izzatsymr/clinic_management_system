@@ -19,4 +19,11 @@ class Assessment extends Model
     {
         return $this->belongsTo(Patient::class);
     }
+
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class, 'assessment_question')
+        ->withPivot('answer_text')
+        ->withTimestamps();
+    }
 }

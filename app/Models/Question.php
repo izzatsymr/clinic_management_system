@@ -11,17 +11,12 @@ class Question extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['question_text', 'assessment_id'];
+    protected $fillable = ['question_text'];
 
     protected $searchableFields = ['*'];
 
-    public function assessment()
+    public function assessments()
     {
-        return $this->belongsTo(Assessment::class);
-    }
-
-    public function answers()
-    {
-        return $this->hasMany(Answer::class);
+        return $this->belongsToMany(Assessment::class)->withPivot('answer_text');
     }
 }

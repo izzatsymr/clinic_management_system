@@ -25,7 +25,6 @@ class QuestionUpdateRequest extends FormRequest
     {
         return [
             'question_text' => ['required', 'max:255', 'string'],
-            'assessment_id' => ['required', 'exists:assessments,id'],
         ];
     }
 }

@@ -21,15 +21,6 @@
                         </h5>
                         <span>{{ $question->question_text ?? '-' }}</span>
                     </div>
-                    <div class="mb-4">
-                        <h5 class="font-medium text-gray-700">
-                            @lang('crud.questions.inputs.assessment_id')
-                        </h5>
-                        <span
-                            >{{ optional($question->assessment)->id ?? '-'
-                            }}</span
-                        >
-                    </div>
                 </div>
 
                 <div class="mt-10">

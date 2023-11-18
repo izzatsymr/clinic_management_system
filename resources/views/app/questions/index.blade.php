@@ -52,9 +52,6 @@
                                 <th class="px-4 py-3 text-left">
                                     @lang('crud.questions.inputs.question_text')
                                 </th>
-                                <th class="px-4 py-3 text-left">
-                                    @lang('crud.questions.inputs.assessment_id')
-                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -63,10 +60,6 @@
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 text-left">
                                     {{ $question->question_text ?? '-' }}
-                                </td>
-                                <td class="px-4 py-3 text-left">
-                                    {{ optional($question->assessment)->id ??
-                                    '-' }}
                                 </td>
                                 <td
                                     class="px-4 py-3 text-center"
@@ -133,7 +126,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="3">
+                                <td colspan="2">
                                     @lang('crud.common.no_items_found')
                                 </td>
                             </tr>
@@ -141,7 +134,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="3">
+                                <td colspan="2">
                                     <div class="mt-10 px-4">
                                         {!! $questions->render() !!}
                                     </div>

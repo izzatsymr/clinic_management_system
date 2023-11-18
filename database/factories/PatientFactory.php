@@ -32,5 +32,6 @@ class PatientFactory extends Factory
             'gender' => \Arr::random(['male', 'female', 'other']),
             'medical_history' => $this->faker->text(25),
         ];
+
     }
 }

@@ -85,11 +85,11 @@ class AppointmentController extends Controller
         $this->authorize('update', $appointment);
 
         $patients = Patient::pluck('name', 'id');
-        $doctors = User::role('doctor')->pluck('name', 'id');
+        $users = User::pluck('name', 'id');
 
         return view(
             'app.appointments.edit',
-            compact('appointment', 'patients', 'doctors')
+            compact('appointment', 'patients', 'users')
         );
     }
 

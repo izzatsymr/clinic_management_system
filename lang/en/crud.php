@@ -22,19 +22,6 @@ return [
         'removed' => 'Successfully removed',
     ],
 
-    'answers' => [
-        'name' => 'Answers',
-        'index_title' => 'Answers List',
-        'new_title' => 'New Answer',
-        'create_title' => 'Create Answer',
-        'edit_title' => 'Edit Answer',
-        'show_title' => 'Show Answer',
-        'inputs' => [
-            'answer_text' => 'Answer Text',
-            'question_id' => 'Question',
-        ],
-    ],
-
     'appointments' => [
         'name' => 'Appointments',
         'index_title' => 'Appointments List',
@@ -91,7 +78,6 @@ return [
         'show_title' => 'Show Question',
         'inputs' => [
             'question_text' => 'Question Text',
-            'assessment_id' => 'Assessment',
         ],
     ],
 

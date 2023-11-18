@@ -62,7 +62,7 @@
                                     @lang('crud.appointments.inputs.patient_id')
                                 </th>
                                 <th class="px-4 py-3 text-left">
-                                    @lang('Assigned Doctor')
+                                    @lang('crud.appointments.inputs.user_id')
                                 </th>
                                 <th></th>
                             </tr>

@@ -5,8 +5,6 @@ namespace Tests\Feature\Api;
 use App\Models\User;
 use App\Models\Question;
 
-use App\Models\Assessment;
-
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -66,11 +64,8 @@ class QuestionTest extends TestCase
     {
         $question = Question::factory()->create();
 
-        $assessment = Assessment::factory()->create();
-
         $data = [
             'question_text' => $this->faker->text(255),
-            'assessment_id' => $assessment->id,
         ];
 
         $response = $this->putJson(

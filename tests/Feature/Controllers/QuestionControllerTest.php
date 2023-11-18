@@ -5,8 +5,6 @@ namespace Tests\Feature\Controllers;
 use App\Models\User;
 use App\Models\Question;
 
-use App\Models\Assessment;
-
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -110,11 +108,8 @@ class QuestionControllerTest extends TestCase
     {
         $question = Question::factory()->create();
 
-        $assessment = Assessment::factory()->create();
-
         $data = [
             'question_text' => $this->faker->text(255),
-            'assessment_id' => $assessment->id,
         ];
 
         $response = $this->put(route('questions.update', $question), $data);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use App\Models\Assessment;
 use Illuminate\Http\Request;
 use App\Http\Requests\QuestionStoreRequest;
 use App\Http\Requests\QuestionUpdateRequest;
@@ -36,9 +35,7 @@ class QuestionController extends Controller
     {
         $this->authorize('create', Question::class);
 
-        $assessments = Assessment::pluck('id', 'id');
-
-        return view('app.questions.create', compact('assessments'));
+        return view('app.questions.create');
     }
 
     /**
@@ -79,9 +76,7 @@ class QuestionController extends Controller
     {
         $this->authorize('update', $question);
 
-        $assessments = Assessment::pluck('id', 'id');
-
-        return view('app.questions.edit', compact('question', 'assessments'));
+        return view('app.questions.edit', compact('question'));
     }
 
     /**

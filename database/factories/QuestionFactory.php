@@ -24,7 +24,6 @@ class QuestionFactory extends Factory
     {
         return [
             'question_text' => $this->faker->text(25),
-            'assessment_id' => \App\Models\Assessment::factory(),
         ];
     }
 }

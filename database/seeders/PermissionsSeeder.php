@@ -15,12 +15,6 @@ class PermissionsSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Create default permissions
-        Permission::create(['name' => 'list answers']);
-        Permission::create(['name' => 'view answers']);
-        Permission::create(['name' => 'create answers']);
-        Permission::create(['name' => 'update answers']);
-        Permission::create(['name' => 'delete answers']);
-
         Permission::create(['name' => 'list appointments']);
         Permission::create(['name' => 'view appointments']);
         Permission::create(['name' => 'create appointments']);

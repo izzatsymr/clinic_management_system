@@ -5,62 +5,62 @@ use App\Models\Question;
 use App\Models\Assessment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\QuestionCollection;
+use App\Http\Resources\AssessmentCollection;
 
-class AssessmentQuestionsController extends Controller
+class QuestionAssessmentsController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Assessment $assessment
+     * @param \App\Models\Question $question
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Assessment $assessment)
+    public function index(Request $request, Question $question)
     {
-        $this->authorize('view', $assessment);
+        $this->authorize('view', $question);
 
         $search = $request->get('search', '');
 
-        $questions = $assessment
-            ->questions()
+        $assessments = $question
+            ->assessments()
             ->search($search)
             ->latest()
             ->paginate();
 
-        return new QuestionCollection($questions);
+        return new AssessmentCollection($assessments);
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Assessment $assessment
      * @param \App\Models\Question $question
+     * @param \App\Models\Assessment $assessment
      * @return \Illuminate\Http\Response
      */
     public function store(
         Request $request,
-        Assessment $assessment,
-        Question $question
+        Question $question,
+        Assessment $assessment
     ) {
-        $this->authorize('update', $assessment);
+        $this->authorize('update', $question);
 
-        $assessment->questions()->syncWithoutDetaching([$question->id]);
+        $question->assessments()->syncWithoutDetaching([$assessment->id]);
 
         return response()->noContent();
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Assessment $assessment
      * @param \App\Models\Question $question
+     * @param \App\Models\Assessment $assessment
      * @return \Illuminate\Http\Response
      */
     public function destroy(
         Request $request,
-        Assessment $assessment,
-        Question $question
+        Question $question,
+        Assessment $assessment
     ) {
-        $this->authorize('update', $assessment);
+        $this->authorize('update', $question);
 
-        $assessment->questions()->detach($question);
+        $question->assessments()->detach($assessment);
 
         return response()->noContent();
     }

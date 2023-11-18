@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AssessmentController;
@@ -38,7 +37,6 @@ Route::prefix('/')
         Route::resource('roles', RoleController::class);
         Route::resource('permissions', PermissionController::class);
 
-        Route::resource('answers', AnswerController::class);
         Route::resource('appointments', AppointmentController::class);
         Route::resource('assessments', AssessmentController::class);
         Route::resource('patients', PatientController::class);

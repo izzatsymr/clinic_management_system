@@ -11,7 +11,7 @@ use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class AssessmentQuestionsTest extends TestCase
+class QuestionAssessmentsTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
@@ -31,38 +31,38 @@ class AssessmentQuestionsTest extends TestCase
     /**
      * @test
      */
-    public function it_gets_assessment_questions()
+    public function it_gets_question_assessments()
     {
-        $assessment = Assessment::factory()->create();
         $question = Question::factory()->create();
+        $assessment = Assessment::factory()->create();
 
-        $assessment->questions()->attach($question);
+        $question->assessments()->attach($assessment);
 
         $response = $this->getJson(
-            route('api.assessments.questions.index', $assessment)
+            route('api.questions.assessments.index', $question)
         );
 
-        $response->assertOk()->assertSee($question->question_text);
+        $response->assertOk()->assertSee($assessment->id);
     }
 
     /**
      * @test
      */
-    public function it_can_attach_questions_to_assessment()
+    public function it_can_attach_assessments_to_question()
     {
-        $assessment = Assessment::factory()->create();
         $question = Question::factory()->create();
+        $assessment = Assessment::factory()->create();
 
         $response = $this->postJson(
-            route('api.assessments.questions.store', [$assessment, $question])
+            route('api.questions.assessments.store', [$question, $assessment])
         );
 
         $response->assertNoContent();
 
         $this->assertTrue(
-            $assessment
-                ->questions()
-                ->where('questions.id', $question->id)
+            $question
+                ->assessments()
+                ->where('assessments.id', $assessment->id)
                 ->exists()
         );
     }
@@ -70,21 +70,21 @@ class AssessmentQuestionsTest extends TestCase
     /**
      * @test
      */
-    public function it_can_detach_questions_from_assessment()
+    public function it_can_detach_assessments_from_question()
     {
-        $assessment = Assessment::factory()->create();
         $question = Question::factory()->create();
+        $assessment = Assessment::factory()->create();
 
         $response = $this->deleteJson(
-            route('api.assessments.questions.store', [$assessment, $question])
+            route('api.questions.assessments.store', [$question, $assessment])
         );
 
         $response->assertNoContent();
 
         $this->assertFalse(
-            $assessment
-                ->questions()
-                ->where('questions.id', $question->id)
+            $question
+                ->assessments()
+                ->where('assessments.id', $assessment->id)
                 ->exists()
         );
     }
