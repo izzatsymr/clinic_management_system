@@ -15,15 +15,15 @@ return new class extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('contact_no');
-            $table->string('address');
-            $table->date('date_of_birth');
-            $table->enum('gender', ['male', 'female', 'other']);
+            $table->string('contact_no')->nullable();
+            $table->string('address')->nullable();;
+            $table->date('date_of_birth')->nullable();;
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();;
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('specialization');
-            $table->date('schedule');
+            $table->string('specialization')->nullable();;
+            $table->date('schedule')->nullable();;
             $table->string('remember_token', 100)->nullable();
             $table->text('two_factor_secret')->nullable();
             $table->text('two_factor_recovery_codes')->nullable();
