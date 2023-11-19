@@ -101,7 +101,10 @@ class AssessmentController extends Controller
         $patients = Patient::pluck('name', 'id');
         $questions = Question::pluck('question_text', 'id');
 
-        return view('app.assessments.edit', compact('assessment', 'patients', 'questions'));
+        // Get the old values of questions and answers
+        $oldQuestions = $request->old('questions', $assessment->questions->toArray());
+
+        return view('app.assessments.edit', compact('assessment', 'patients', 'questions', 'oldQuestions'));
     }
 
     /**

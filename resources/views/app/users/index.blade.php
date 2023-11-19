@@ -13,18 +13,11 @@
                         <div class="md:w-1/2">
                             <form>
                                 <div class="flex items-center w-full">
-                                    <x-inputs.text
-                                        name="search"
-                                        value="{{ $search ?? '' }}"
-                                        placeholder="{{ __('crud.common.search') }}"
-                                        autocomplete="off"
-                                    ></x-inputs.text>
+                                    <x-inputs.text name="search" value="{{ $search ?? '' }}"
+                                        placeholder="{{ __('crud.common.search') }}" autocomplete="off"></x-inputs.text>
 
                                     <div class="ml-1">
-                                        <button
-                                            type="submit"
-                                            class="button button-primary"
-                                        >
+                                        <button type="submit" class="button button-primary">
                                             <i class="icon ion-md-search"></i>
                                         </button>
                                     </div>
@@ -33,10 +26,7 @@
                         </div>
                         <div class="md:w-1/2 text-right">
                             @can('create', App\Models\User::class)
-                            <a
-                                href="{{ route('users.create') }}"
-                                class="button button-primary"
-                            >
+                            <a href="{{ route('users.create') }}" class="button button-primary">
                                 <i class="mr-1 icon ion-md-add"></i>
                                 @lang('crud.common.create')
                             </a>
@@ -66,6 +56,9 @@
                                 </th>
                                 <th class="px-4 py-3 text-left">
                                     @lang('crud.users.inputs.email')
+                                </th>
+                                <th class="px-4 py-3 text-left">
+                                    @lang('Role')
                                 </th>
                                 <th class="px-4 py-3 text-left">
                                     @lang('crud.users.inputs.specialization')
@@ -98,68 +91,44 @@
                                     {{ $user->email ?? '-' }}
                                 </td>
                                 <td class="px-4 py-3 text-left">
+                                    @foreach($user->roles as $role)
+                                    {{ $role->name }}<br>
+                                    @endforeach
+                                </td>
+                                <td class="px-4 py-3 text-left">
                                     {{ $user->specialization ?? '-' }}
                                 </td>
                                 <td class="px-4 py-3 text-left">
                                     {{ $user->schedule ?? '-' }}
                                 </td>
-                                <td
-                                    class="px-4 py-3 text-center"
-                                    style="width: 134px;"
-                                >
-                                    <div
-                                        role="group"
-                                        aria-label="Row Actions"
-                                        class="
+                                <td class="px-4 py-3 text-center" style="width: 134px;">
+                                    <div role="group" aria-label="Row Actions" class="
                                             relative
                                             inline-flex
                                             align-middle
-                                        "
-                                    >
+                                        ">
                                         @can('update', $user)
-                                        <a
-                                            href="{{ route('users.edit', $user) }}"
-                                            class="mr-1"
-                                        >
-                                            <button
-                                                type="button"
-                                                class="button"
-                                            >
-                                                <i
-                                                    class="icon ion-md-create"
-                                                ></i>
+                                        <a href="{{ route('users.edit', $user) }}" class="mr-1">
+                                            <button type="button" class="button">
+                                                <i class="icon ion-md-create"></i>
                                             </button>
                                         </a>
                                         @endcan @can('view', $user)
-                                        <a
-                                            href="{{ route('users.show', $user) }}"
-                                            class="mr-1"
-                                        >
-                                            <button
-                                                type="button"
-                                                class="button"
-                                            >
+                                        <a href="{{ route('users.show', $user) }}" class="mr-1">
+                                            <button type="button" class="button">
                                                 <i class="icon ion-md-eye"></i>
                                             </button>
                                         </a>
                                         @endcan @can('delete', $user)
-                                        <form
-                                            action="{{ route('users.destroy', $user) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')"
-                                        >
+                                        <form action="{{ route('users.destroy', $user) }}" method="POST"
+                                            onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">
                                             @csrf @method('DELETE')
-                                            <button
-                                                type="submit"
-                                                class="button"
-                                            >
-                                                <i
-                                                    class="
+                                            <button type="submit" class="button">
+                                                <i class="
                                                         icon
                                                         ion-md-trash
                                                         text-red-600
-                                                    "
-                                                ></i>
+                                                    "></i>
                                             </button>
                                         </form>
                                         @endcan

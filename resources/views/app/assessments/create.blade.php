@@ -13,7 +13,8 @@
                             class="mr-1 icon ion-md-arrow-back"></i></a>
                 </x-slot>
 
-                <x-form method="POST" action="{{ route('assessments.store') }}" class="mt-4" id="assessment-form">
+                <x-form method="POST" action="{{ route('assessments.store', ['patient_id' => request('patient_id')]) }}"
+                    class="mt-4" id="assessment-form">
                     @include('app.assessments.form-inputs')
                     @include('app.assessments.question-answer-inputs')
 
@@ -22,6 +23,10 @@
 
                     <button type="button" class="button ml-2" onclick="addMoreQuestion()">
                         Add More Question
+                    </button>
+
+                    <button type="button" class="button button-secondary ml-2" onclick="deleteLastQuestion()">
+                        Delete Last Question
                     </button>
 
                     <div class="mt-10">
@@ -45,7 +50,6 @@
             </x-partials.card>
         </div>
     </div>
-    <!-- ... (your existing code) ... -->
 
     <script>
         function addMoreQuestion() {
@@ -54,26 +58,32 @@
 
             const newQuestionDiv = document.createElement('div');
             newQuestionDiv.innerHTML = `
-            <div class="mt-4">
-                <x-inputs.group class="w-full">
-                    <x-inputs.select name="questions[${newIndex}][question_id]" label="Question" required>
-                        <option disabled selected>Please select the Question</option>
-                        @foreach($questions as $questionId => $questionText)
-                            <option value="{{ $questionId }}">{{ $questionText }}</option>
-                        @endforeach
-                    </x-inputs.select>
-                </x-inputs.group>
+        <div class="mt-4">
+            <x-inputs.group class="w-full">
+                <x-inputs.select name="questions[${newIndex}][question_id]" label="Question" required>
+                    <option disabled selected>Please select the Question</option>
+                    @foreach($questions as $questionId => $questionText)
+                        <option value="{{ $questionId }}">{{ $questionText }}</option>
+                    @endforeach
+                </x-inputs.select>
+            </x-inputs.group>
 
-                <x-inputs.group class="w-full">
-                    <x-inputs.text name="questions[${newIndex}][answer_text]" label="Answer Text" required></x-inputs.text>
-                </x-inputs.group>
-            </div>
-        `;
+            <x-inputs.group class="w-full">
+                <x-inputs.text name="questions[${newIndex}][answer_text]" label="Answer Text" required></x-inputs.text>
+            </x-inputs.group>
+        </div>
+    `;
 
             container.appendChild(newQuestionDiv);
         }
+
+        function deleteLastQuestion() {
+            const container = document.getElementById('additional-question-inputs');
+            const lastIndex = container.children.length - 1;
+
+            if (lastIndex >= 0) {
+                container.removeChild(container.children[lastIndex]);
+            }
+        }
     </script>
-
-    <!-- ... (your existing code) ... -->
-
 </x-app-layout>

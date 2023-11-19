@@ -41,10 +41,11 @@ class AppointmentController extends Controller
         $this->authorize('create', Appointment::class);
 
         $patients = Patient::pluck('name', 'id');
-        $users = User::pluck('name', 'id');
+        $doctors = User::role('doctor')->pluck('name', 'id');
 
-        return view('app.appointments.create', compact('patients', 'users'));
+        return view('app.appointments.create', compact('patients', 'doctors'));
     }
+
 
     /**
      * @param \App\Http\Requests\AppointmentStoreRequest $request
@@ -85,11 +86,11 @@ class AppointmentController extends Controller
         $this->authorize('update', $appointment);
 
         $patients = Patient::pluck('name', 'id');
-        $users = User::pluck('name', 'id');
+        $doctors = User::role('doctor')->pluck('name', 'id');
 
         return view(
             'app.appointments.edit',
-            compact('appointment', 'patients', 'users')
+            compact('appointment', 'patients', 'doctors')
         );
     }
 

@@ -50,8 +50,9 @@ class PatientController extends Controller
 
         $patient = Patient::create($validated);
 
+        // Redirect to the assessment create page with the patient ID
         return redirect()
-            ->route('patients.edit', $patient)
+            ->route('assessments.create', ['patient_id' => $patient->id])
             ->withSuccess(__('crud.common.created'));
     }
 

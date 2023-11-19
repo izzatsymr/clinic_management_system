@@ -9,9 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-partials.card>
                 <x-slot name="title">
-                    <a href="{{ route('assessments.index') }}" class="mr-4"
-                        ><i class="mr-1 icon ion-md-arrow-back"></i
-                    ></a>
+                    <a href="{{ route('assessments.index') }}" class="mr-4"><i
+                            class="mr-1 icon ion-md-arrow-back"></i></a>
                 </x-slot>
 
                 <div class="mt-4 px-4">
@@ -19,11 +18,22 @@
                         <h5 class="font-medium text-gray-700">
                             @lang('crud.assessments.inputs.patient_id')
                         </h5>
-                        <span
-                            >{{ optional($assessment->patient)->name ?? '-'
-                            }}</span
-                        >
+                        <span>{{ optional($assessment->patient)->name ?? '-' }}</span>
                     </div>
+                </div>
+
+                <div class="mt-4 px-4">
+                    <h5 class="font-medium text-gray-700">
+                        @lang('Question And Answers')
+                    </h5>
+                    @forelse ($assessment->questions as $question)
+                    <div class="mb-2">
+                        <strong>{{ $question->question_text }}</strong>:
+                        {{ $question->pivot->answer_text ?? '-' }}
+                    </div>
+                    @empty
+                    <p>No questions and answers found for this assessment.</p>
+                    @endforelse
                 </div>
 
                 <div class="mt-10">

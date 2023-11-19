@@ -49,6 +49,12 @@
                     <table class="w-full max-w-full mb-4 bg-transparent">
                         <thead class="text-gray-700">
                             <tr>
+                            <th class="px-4 py-3 text-left">
+                                    @lang('crud.appointments.inputs.patient_id')
+                                </th>
+                                <th class="px-4 py-3 text-left">
+                                    @lang('crud.appointments.inputs.user_id')
+                                </th>
                                 <th class="px-4 py-3 text-left">
                                     @lang('crud.appointments.inputs.date_time')
                                 </th>
@@ -58,18 +64,19 @@
                                 <th class="px-4 py-3 text-left">
                                     @lang('crud.appointments.inputs.note')
                                 </th>
-                                <th class="px-4 py-3 text-left">
-                                    @lang('crud.appointments.inputs.patient_id')
-                                </th>
-                                <th class="px-4 py-3 text-left">
-                                    @lang('crud.appointments.inputs.user_id')
-                                </th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600">
                             @forelse($appointments as $appointment)
                             <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 text-left">
+                                    {{ optional($appointment->patient)->name ??
+                                    '-' }}
+                                </td>
+                                <td class="px-4 py-3 text-left">
+                                    {{ optional($appointment->user)->name ?? '-'
+                                    }}
+                                </td>
                                 <td class="px-4 py-3 text-left">
                                     {{ $appointment->date_time ?? '-' }}
                                 </td>
@@ -79,14 +86,7 @@
                                 <td class="px-4 py-3 text-left">
                                     {{ $appointment->note ?? '-' }}
                                 </td>
-                                <td class="px-4 py-3 text-left">
-                                    {{ optional($appointment->patient)->name ??
-                                    '-' }}
-                                </td>
-                                <td class="px-4 py-3 text-left">
-                                    {{ optional($appointment->user)->name ?? '-'
-                                    }}
-                                </td>
+                                
                                 <td
                                     class="px-4 py-3 text-center"
                                     style="width: 134px;"
